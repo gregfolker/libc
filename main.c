@@ -24,8 +24,12 @@ static int _TestMaxValue()
    UINT32 max_uint32;
    UINT64 max_uint64;
 
+   PRINT_DEBUG("Verifying 4 max value(s)...\n");
+
    max_byte = MaxValue(sizeof(BYTE));
    expected = 255;
+
+   PRINT_DEBUG("Testing BYTE max value...\n");
 
    if (max_byte != expected)
    {
@@ -36,6 +40,8 @@ static int _TestMaxValue()
    max_uint16 = MaxValue(sizeof(UINT16));
    expected = 65535;
 
+   PRINT_DEBUG("Testing UINT16 max value...\n");
+
    if (max_uint16 != expected)
    {
       FPRINTF_FAILURE("expected=%zu actual=%d\n\n", expected, max_uint16);
@@ -45,6 +51,8 @@ static int _TestMaxValue()
    max_uint32 = MaxValue(sizeof(UINT32));
    expected = 4294967295;
 
+   PRINT_DEBUG("Testing UINT32 max value...\n");
+
    if (max_uint32 != expected)
    {
       FPRINTF_FAILURE("expected=%zu actual=%d\n\n", expected, max_uint32);
@@ -53,6 +61,8 @@ static int _TestMaxValue()
 
    max_uint64 = MaxValue(sizeof(UINT64));
    expected = 18446744073709551615UL;
+
+   PRINT_DEBUG("Testing UINT64 max value...\n");
 
    if (max_uint64 != expected)
    {
@@ -88,8 +98,11 @@ static int _TestTypename()
    void                   *test_pointer_to_void;
    int                    *test_pointer_to_int;
 
+   FPRINTF_DEBUG("Verifying %d type(s)...\n", num_types);
+
    for (BYTE t = 0; t <= num_types; t++)
    {
+      FPRINTF_DEBUG("Checking '%s' type...\n", TypeToAscii(t));
       switch (t)
       {
          case TYPENAME_BOOL:
@@ -292,35 +305,35 @@ static int _RunTests(int iterations)
 {
    if (_TestMaxValue() == 0)
    {
-      PRINT_SUCCESS("_TestMaxValue()\n");
+      PRINT_SUCCESS("_TestMaxValue()\n\n");
    }
    else
    {
-      PRINT_FAILURE("_TestMaxValue()\n");
+      PRINT_FAILURE("_TestMaxValue()\n\n");
       return TEST_FAIL;
    }
 
    if (_TestTypename() == 0)
    {
-      PRINT_SUCCESS("_TestTypeName()\n");
+      PRINT_SUCCESS("_TestTypeName()\n\n");
    }
    else
    {
-      PRINT_FAILURE("_TestTypeName()\n");
+      PRINT_FAILURE("_TestTypeName()\n\n");
       return TEST_FAIL;
    }
 
    if (_TestBinaryDumpUint32(iterations) == 0)
    {
-      PRINT_SUCCESS("_TestBinaryDumpUint32()\n");
+      PRINT_SUCCESS("_TestBinaryDumpUint32()\n\n");
    }
    else
    {
-      PRINT_FAILURE("_TestBinaryDumpUint32()\n");
+      PRINT_FAILURE("_TestBinaryDumpUint32()\n\n");
       return TEST_FAIL;
    }
 
-   PRINT_SUCCESS("All Unit Tests Passed\n");
+   PRINT_SUCCESS("All Unit Tests Passed\n\n");
    return TEST_PASS;
 }
 
