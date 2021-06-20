@@ -48,7 +48,7 @@ static void _UintToBinaryString(UINT val, UINT start_bit, char *sep, char *binar
    }
 }
 
-UINT32 BinaryDumpUint32(FILE *fd, UINT32 val, char *sep)
+UINT32 BinaryDumpUint32(UINT32 val, char *sep)
 {
    char binary[BITS_IN_UINT32];
    UINT32 ret_val = 0;
@@ -57,7 +57,7 @@ UINT32 BinaryDumpUint32(FILE *fd, UINT32 val, char *sep)
 
    _UintToBinaryString((UINT)val, (1 << (BITS_IN_UINT32 - 1)), sep, binary, (UINT *)&ret_val);
 
-   fputs(binary, fd);
+   fputs(binary, stdout);
 
    return ret_val;
 }

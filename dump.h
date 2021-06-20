@@ -1,4 +1,4 @@
 /*
  * Prototypes
  */
-UINT32 BinaryDumpUint32(FILE *fd, UINT32 val, char *sep);
+UINT32 BinaryDumpUint32(UINT32 val, char *sep);

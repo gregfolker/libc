@@ -276,7 +276,7 @@ static int _TestBinaryDumpUint32(int iterations)
 
       FPRINTF_DEBUG("iteration=%.4d, input=0x%08X, output=", (iter + 1), test_val);
 
-      ret_val = BinaryDumpUint32(stdout, test_val, "_");
+      ret_val = BinaryDumpUint32(test_val, "_");
 
       if (ret_val != test_val)
       {
