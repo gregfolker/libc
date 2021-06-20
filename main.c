@@ -1,8 +1,9 @@
 /*
  * File: `main.c`
  * Author: Greg Folker
- * Description: Test `main.c` for custom library function definitions
+ * Description: Test code for custom library function definitions inside `libc`
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
