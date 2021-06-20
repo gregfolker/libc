@@ -3,9 +3,9 @@
  * Author: Greg Folker
  * Description: Test code for custom library function definitions inside `libc`
  */
-
 #include <stdio.h>
 
+#include "print.h"
 #include "types.h"
 #include "dump.h"
 #include "rand.h"
@@ -29,7 +29,7 @@ static int _TestMaxValue()
 
    if (max_byte != expected)
    {
-      fprintf(stderr, "\n%s: FAILED! expected=%zu actual=%d\n\n", __func__, expected, max_byte);
+      FPRINTF_FAILURE("expected=%zu actual=%d\n\n", expected, max_byte);
       return TEST_FAIL;
    }
 
@@ -38,7 +38,7 @@ static int _TestMaxValue()
 
    if (max_uint16 != expected)
    {
-      fprintf(stderr, "\n%s: FAILED! expected=%zu actual=%d\n\n", __func__, expected, max_uint16);
+      FPRINTF_FAILURE("expected=%zu actual=%d\n\n", expected, max_uint16);
       return TEST_FAIL;
    }
 
@@ -47,7 +47,7 @@ static int _TestMaxValue()
 
    if (max_uint32 != expected)
    {
-      fprintf(stderr, "\n%s: FAILED! expected=%zu actual=%d\n\n", __func__, expected, max_uint32);
+      FPRINTF_FAILURE("expected=%zu actual=%d\n\n", expected, max_uint32);
       return TEST_FAIL;
    }
 
@@ -56,7 +56,7 @@ static int _TestMaxValue()
 
    if (max_uint64 != expected)
    {
-      fprintf(stderr, "\n%s: FAILED! expected=%zu actual=%ld\n\n", __func__, expected, max_uint64);
+      FPRINTF_FAILURE("expected=%zu actual=%ld\n\n", expected, max_uint64);
       return TEST_FAIL;
    }
 
@@ -97,7 +97,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_BOOL)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_BOOL), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_BOOL), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -106,7 +106,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_UNSIGNED_CHAR)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_UNSIGNED_CHAR), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_UNSIGNED_CHAR), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -115,7 +115,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_CHAR)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_CHAR), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_CHAR), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -124,7 +124,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_SIGNED_CHAR)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_SIGNED_CHAR), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_SIGNED_CHAR), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -133,7 +133,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_SHORT_INT)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_SHORT_INT), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_SHORT_INT), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -142,7 +142,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_UNSIGNED_SHORT_INT)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_UNSIGNED_SHORT_INT), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_UNSIGNED_SHORT_INT), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -151,7 +151,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_INT)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_INT), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_INT), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -160,7 +160,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_UNSIGNED_INT)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_UNSIGNED_INT), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_UNSIGNED_INT), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -169,7 +169,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_LONG_INT)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_LONG_INT), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_LONG_INT), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -178,7 +178,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_UNSIGNED_LONG_INT)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_UNSIGNED_LONG_INT), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_UNSIGNED_LONG_INT), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -187,7 +187,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_LONG_LONG_INT)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_LONG_LONG_INT), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_LONG_LONG_INT), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -196,7 +196,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_UNSIGNED_LONG_LONG_INT)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_UNSIGNED_LONG_LONG_INT), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_UNSIGNED_LONG_LONG_INT), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -205,7 +205,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_FLOAT)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_FLOAT), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_FLOAT), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -214,7 +214,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_DOUBLE)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_DOUBLE), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_DOUBLE), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -223,7 +223,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_LONG_DOUBLE)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_LONG_DOUBLE), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_LONG_DOUBLE), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -232,7 +232,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_POINTER_TO_CHAR)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_POINTER_TO_CHAR), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_POINTER_TO_CHAR), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -241,7 +241,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_POINTER_TO_VOID)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_POINTER_TO_VOID), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_POINTER_TO_VOID), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -250,7 +250,7 @@ static int _TestTypename()
 
             if (type != TYPENAME_POINTER_TO_INT)
             {
-               fprintf(stderr, "\n%s: FAILED! expected=%s actual=%s\n\n", __func__, TypeToAscii(TYPENAME_POINTER_TO_INT), TypeToAscii(type));
+               FPRINTF_FAILURE("expected=%s actual=%s\n\n", TypeToAscii(TYPENAME_POINTER_TO_INT), TypeToAscii(type));
                return TEST_FAIL;
             }
             break;
@@ -268,23 +268,21 @@ static int _TestBinaryDumpUint32(int iterations)
    UINT32 test_val;
    UINT32 ret_val;
 
-   fprintf(stdout, "Running %s for %d iteration(s)...\n\n", __func__, iterations);
+   FPRINTF_DEBUG("Running %d iteration(s)...\n", iterations);
 
    for (int iter = 0; iter < iterations; iter++)
    {
       test_val = RandUint32Max();
 
-      fprintf(stdout, "%s iteration=%d, test_val=%d\n\n", __func__, iter, test_val);
+      FPRINTF_DEBUG("iteration=%.4d, input=0x%08X, output=", (iter + 1), test_val);
 
-      fputs("Result:\n", stdout);
       ret_val = BinaryDumpUint32(stdout, test_val, "_");
 
       if (ret_val != test_val)
       {
-         fprintf(stderr, "\nFAILED %s iteration=%d, expected=%d actual=%d\n\n", __func__, iter, test_val, ret_val);
+         FPRINTF_FAILURE("iteration=%.4d, expected=0x%08X actual=0x%08X\n\n", (iter + 1), test_val, ret_val);
          return TEST_FAIL;
       }
-      fputs("\n", stdout);
    }
 
    return TEST_PASS;
@@ -294,34 +292,35 @@ static int _RunTests(int iterations)
 {
    if (_TestMaxValue() == 0)
    {
-      fputs("MaxValue() verification PASSED\n\n", stdout);
+      PRINT_SUCCESS("_TestMaxValue()\n");
    }
    else
    {
-      fputs("MaxValue() verification FAILED\n\n", stderr);
+      PRINT_FAILURE("_TestMaxValue()\n");
       return TEST_FAIL;
    }
 
    if (_TestTypename() == 0)
    {
-      fputs("typename() verification PASSED\n\n", stdout);
+      PRINT_SUCCESS("_TestTypeName()\n");
    }
    else
    {
-      fputs("typename() verification FAILED\n\n", stderr);
+      PRINT_FAILURE("_TestTypeName()\n");
       return TEST_FAIL;
    }
 
    if (_TestBinaryDumpUint32(iterations) == 0)
    {
-      fputs("BinaryDump() verification PASSED\n\n", stdout);
+      PRINT_SUCCESS("_TestBinaryDumpUint32()\n");
    }
    else
    {
-      fputs("BinaryDump() verification FAILED\n\n", stderr);
+      PRINT_FAILURE("_TestBinaryDumpUint32()\n");
       return TEST_FAIL;
    }
 
+   PRINT_SUCCESS("All Unit Tests Passed\n");
    return TEST_PASS;
 }
 
