@@ -6,9 +6,9 @@
 #include "print.h"
 #include "mem.h"
 
-static BYTE *_UintToBinaryString(UINT val, UINT total_bits, char *sep, UINT *ret_val)
+static char *_UintToBinaryString(UINT val, UINT total_bits, char *sep, UINT *ret_val)
 {
-   BYTE *binary;
+   char *binary;
    BYTE bit_count = 0;
    UINT msbit;
 
@@ -16,7 +16,7 @@ static BYTE *_UintToBinaryString(UINT val, UINT total_bits, char *sep, UINT *ret
 
    FPRINTF_DEBUG("val=0x%08lX, bits=%lu, msbit=%lu\n\n", val, total_bits, msbit);
 
-   binary = (BYTE *)xmalloc(total_bits);
+   binary = (char *)xmalloc(total_bits);
 
    for (UINT bit = msbit; bit > 0; bit >>= 1)
    {
@@ -62,7 +62,7 @@ static BYTE *_UintToBinaryString(UINT val, UINT total_bits, char *sep, UINT *ret
 
 BYTE BinaryDumpByte(BYTE val, char *sep)
 {
-   BYTE *binary;
+   char *binary;
    BYTE ret_val = 0;
 
    binary = _UintToBinaryString((UINT)val, BITS_IN_BYTE, sep, (UINT *)&ret_val);
@@ -77,7 +77,7 @@ BYTE BinaryDumpByte(BYTE val, char *sep)
 
 UINT16 BinaryDumpUint16(UINT16 val, char *sep)
 {
-   BYTE *binary;
+   char *binary;
    UINT16 ret_val = 0;
 
    binary = _UintToBinaryString((UINT)val, BITS_IN_UINT16, sep, (UINT *)&ret_val);
@@ -91,7 +91,7 @@ UINT16 BinaryDumpUint16(UINT16 val, char *sep)
 
 UINT32 BinaryDumpUint32(UINT32 val, char *sep)
 {
-   BYTE *binary;
+   char *binary;
    UINT32 ret_val = 0;
 
    binary = _UintToBinaryString((UINT)val, BITS_IN_UINT32, sep, (UINT *)&ret_val);
@@ -105,7 +105,7 @@ UINT32 BinaryDumpUint32(UINT32 val, char *sep)
 
 UINT64 BinaryDumpUint64(UINT64 val, char *sep)
 {
-   BYTE *binary;
+   char *binary;
    UINT64 ret_val = 0;
 
    binary = _UintToBinaryString((UINT)val, BITS_IN_UINT64, sep, (UINT *)&ret_val);
