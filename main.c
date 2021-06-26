@@ -16,7 +16,35 @@
 
 #define DEFAULT_TEST_ITERATIONS  10
 
-static int _TestMaxValue()
+#define NUM_UNIT_TESTS 3
+
+static int (*UnitTest[NUM_UNIT_TESTS])(int iterations);
+
+enum t_testname
+{
+   TESTNAME_MAX_VALUE,
+   TESTNAME_TYPENAME,
+   TESTNAME_BINARY_DUMP,
+};
+
+static const char* TestNameToAscii(enum t_testname name)
+{
+   switch (name)
+   {
+      case TESTNAME_MAX_VALUE:
+         return "_TestMaxValue(int)";
+      case TESTNAME_TYPENAME:
+         return "_TestTypename(int)";
+      case TESTNAME_BINARY_DUMP:
+         return "_TestBinaryDump(int)";
+      default:
+         return "unknown";
+   }
+
+   return "";
+}
+
+static int _TestMaxValue(int iterations)
 {
    UINT expected;
    BYTE max_byte;
@@ -73,7 +101,7 @@ static int _TestMaxValue()
    return TEST_PASS;
 }
 
-static int _TestTypename()
+static int _TestTypename(int iterations)
 {
    BYTE num_types = (BYTE)(TYPENAME_UNKNOWN - 1);
 
@@ -425,39 +453,26 @@ static int _TestBinaryDump(int iterations)
    return TEST_PASS;
 }
 
+static void _InitTests()
+{
+   UnitTest[TESTNAME_MAX_VALUE]   = _TestMaxValue;
+   UnitTest[TESTNAME_TYPENAME]    = _TestTypename;
+   UnitTest[TESTNAME_BINARY_DUMP] = _TestBinaryDump;
+}
+
 static int _RunTests(int iterations)
 {
-   if (_TestMaxValue() == 0)
+   for (int test = 0; test < NUM_UNIT_TESTS; test++)
    {
-      PRINT_SUCCESS("_TestMaxValue()\n\n");
-   }
-   else
-   {
-      PRINT_FAILURE("_TestMaxValue()\n\n");
-      return TEST_FAIL;
-   }
-
-   if (_TestTypename() == 0)
-   {
-      PRINT_SUCCESS("_TestTypeName()\n\n");
-   }
-   else
-   {
-      PRINT_FAILURE("_TestTypeName()\n\n");
-      return TEST_FAIL;
+      if ((*UnitTest[test])(iterations) == TEST_FAIL)
+      {
+         FPRINTF_FAILURE("%s\n", TestNameToAscii(test));
+         return TEST_FAIL;
+      }
+      FPRINTF_SUCCESS("%s!\n\n", TestNameToAscii(test));
    }
 
-   if (_TestBinaryDump(iterations) == 0)
-   {
-      PRINT_SUCCESS("_TestBinaryDump##TYPE()\n\n");
-   }
-   else
-   {
-      PRINT_FAILURE("_TestBinaryDump##TYPE()\n\n");
-      return TEST_FAIL;
-   }
-
-   PRINT_SUCCESS("All Unit Tests Passed\n\n");
+   PRINT_SUCCESS("All tests passed!\n");
    return TEST_PASS;
 }
 
@@ -475,6 +490,8 @@ int main(int argc, char *argv[])
    }
 
    SeedRNG();
+   _InitTests();
+
    st = _RunTests(iterations);
 
    return st;
