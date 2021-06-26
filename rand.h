@@ -1,10 +1,10 @@
 #include "lib.h"
 
-#define RandByteMax()   RandByte((BYTE)MaxValue(1))
-#define RandUintMax()   RandByte(MaxValue(BYTES_IN_UINT))
-#define RandUint16Max() RandByte((UINT16)MaxValue(BYTES_IN_UINT16))
-#define RandUint32Max() RandUint32((UINT32)MaxValue(BYTES_IN_UINT32))
-#define RandUint64Max() RandUint64((UINT64)MaxValue(BYTES_IN_U64))
+#define MAX_RAND_BYTE   RandByte(MAX_BYTE)
+#define MAX_RAND_UINT   RandUint(MaxValue(BYTES_IN_UINT))
+#define MAX_RAND_UINT16 RandUint16((UINT16)MaxValue(BYTES_IN_UINT16))
+#define MAX_RAND_UINT32 RandUint32((UINT32)MaxValue(BYTES_IN_UINT32))
+#define MAX_RAND_UINT64 RandUint64((UINT64)MaxValue(BYTES_IN_UINT64))
 
 /*
  * Prototypes

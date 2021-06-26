@@ -1,14 +1,24 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 #include "types.h"
+#include "print.h"
+#include "mem.h"
 
-static void _UintToBinaryString(UINT val, UINT start_bit, char *sep, char *binary, UINT *ret_val)
+static BYTE *_UintToBinaryString(UINT val, UINT total_bits, char *sep, UINT *ret_val)
 {
+   BYTE *binary;
    BYTE bit_count = 0;
+   UINT msbit;
 
-   for (UINT bit = (UINT32)start_bit; bit > 0; bit >>= 1)
+   msbit = MSBit(total_bits);
+
+   FPRINTF_DEBUG("val=0x%08lX, bits=%lu, msbit=%lu\n\n", val, total_bits, msbit);
+
+   binary = (BYTE *)xmalloc(total_bits);
+
+   for (UINT bit = msbit; bit > 0; bit >>= 1)
    {
       strcat(binary, ((val & bit) == bit) ? "1" : "0");
 
@@ -23,7 +33,6 @@ static void _UintToBinaryString(UINT val, UINT start_bit, char *sep, char *binar
        */
       if (bit == 1)
       {
-         strcat(binary, "\n");
          break;
       }
 
@@ -46,18 +55,64 @@ static void _UintToBinaryString(UINT val, UINT start_bit, char *sep, char *binar
          bit_count = 0;
       }
    }
+
+   strcat(binary, "\n");
+   return binary;
+}
+
+BYTE BinaryDumpByte(BYTE val, char *sep)
+{
+   BYTE *binary;
+   BYTE ret_val = 0;
+
+   binary = _UintToBinaryString((UINT)val, BITS_IN_BYTE, sep, (UINT *)&ret_val);
+
+   Print(binary);
+
+   free(binary);
+
+   return ret_val;
+}
+
+
+UINT16 BinaryDumpUint16(UINT16 val, char *sep)
+{
+   BYTE *binary;
+   UINT16 ret_val = 0;
+
+   binary = _UintToBinaryString((UINT)val, BITS_IN_UINT16, sep, (UINT *)&ret_val);
+
+   Print(binary);
+
+   free(binary);
+
+   return ret_val;
 }
 
 UINT32 BinaryDumpUint32(UINT32 val, char *sep)
 {
-   char binary[BITS_IN_UINT32];
+   BYTE *binary;
    UINT32 ret_val = 0;
 
-   memset(binary, '\0', BITS_IN_UINT32);
+   binary = _UintToBinaryString((UINT)val, BITS_IN_UINT32, sep, (UINT *)&ret_val);
 
-   _UintToBinaryString((UINT)val, (1 << (BITS_IN_UINT32 - 1)), sep, binary, (UINT *)&ret_val);
+   Print(binary);
 
-   fputs(binary, stdout);
+   free(binary);
+
+   return ret_val;
+}
+
+UINT64 BinaryDumpUint64(UINT64 val, char *sep)
+{
+   BYTE *binary;
+   UINT64 ret_val = 0;
+
+   binary = _UintToBinaryString((UINT)val, BITS_IN_UINT64, sep, (UINT *)&ret_val);
+
+   Print(binary);
+
+   free(binary);
 
    return ret_val;
 }

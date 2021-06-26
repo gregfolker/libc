@@ -56,7 +56,22 @@ enum t_typename
 #define BITS_IN_UINT32 (BYTES_IN_UINT32  * BITS_IN_BYTE)
 #define BITS_IN_UINT64 (BYTES_IN_UINT64  * BITS_IN_BYTE)
 
-#define MAX_BYTE 0xFF
+#define NUM_ARRAY_ELEMENTS(_x) (sizeof(_x) / sizeof(_x[0]))
+
+#define BIT_SHIFT(_x, _n)  (_x << _n)
+#define BYTE_SHIFT(_x, _n) (_x << (_n * BITS_IN_BYTE))
+
+#define MAX_BYTE   0xFF
+
+#define MSBYTE_MASK_BYTE   MAX_BYTE
+#define MSBYTE_MASK_UINT16 BYTE_SHIFT(MAX_BYTE, BYTES_IN_UINT16 - 1)
+#define MSBYTE_MASK_UINT32 BYTE_SHIFT(MAX_BYTE, BYTES_IN_UINT32 - 1)
+#define MSBYTE_MASK_UINT64 BYTE_SHIFT(MAX_BYTE, BYTES_IN_UINT64 - 1)
+
+#define MSBIT_OF_BYTE   (BYTE)BIT_SHIFT(1, (BITS_IN_BYTE - 1))
+#define MSBIT_OF_UINT16 (UINT16)BIT_SHIFT(1, (BITS_IN_UINT16 - 1))
+#define MSBIT_OF_UINT32 (UINT32)BIT_SHIFT(1, (BITS_IN_UINT32 - 1))
+#define MSBIT_OF_UINT64 (UINT64)BIT_SHIFT(1UL, (BITS_IN_UINT64 - 1))
 
 #define KILOBYTE pow(10, 3)
 #define MEGABYTE pow(10, 6)
@@ -69,4 +84,5 @@ enum t_typename
 /*
  * Protoypes
  */
+UINT MSBit(UINT total_bits);
 const char *TypeToAscii(enum t_typename type);

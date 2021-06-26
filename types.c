@@ -1,5 +1,22 @@
 #include "types.h"
 
+UINT MSBit(UINT total_bits)
+{
+   switch (total_bits)
+   {
+      case BITS_IN_BYTE:
+         return (UINT)(MSBIT_OF_BYTE);
+      case BITS_IN_UINT16:
+         return (UINT)(MSBIT_OF_UINT16);
+      case BITS_IN_UINT32:
+         return (UINT)(MSBIT_OF_UINT32);
+      case BITS_IN_UINT64:
+         return (UINT)(MSBIT_OF_UINT64);
+   }
+
+   return 0;
+}
+
 const char *TypeToAscii(enum t_typename type)
 {
    switch (type)

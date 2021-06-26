@@ -276,26 +276,150 @@ static int _TestTypename()
    return TEST_PASS;
 }
 
-static int _TestBinaryDumpUint32(int iterations)
+static int _TestBinaryDumpByte(int iterations)
 {
-   UINT32 test_val;
-   UINT32 ret_val;
+   BYTE test_byte;
+   BYTE ret_val;
 
-   FPRINTF_DEBUG("Running %d iteration(s)...\n", iterations);
+   FPRINTF_DEBUG("Running %d iteration(s) on a(n) '%s'...\n",
+                 iterations, TypeToAscii(typename(test_byte)));
 
    for (int iter = 0; iter < iterations; iter++)
    {
-      test_val = RandUint32Max();
+      test_byte = MAX_RAND_BYTE;
 
-      FPRINTF_DEBUG("iteration=%.4d, input=0x%08X, output=", (iter + 1), test_val);
+      FPRINTF_DEBUG("iteration=%.4d, input=0x%02X\n",
+                    (iter + 1), test_byte);
 
-      ret_val = BinaryDumpUint32(test_val, "_");
+      ret_val = BinaryDumpByte(test_byte, "");
 
-      if (ret_val != test_val)
+      if (ret_val != test_byte)
       {
-         FPRINTF_FAILURE("iteration=%.4d, expected=0x%08X actual=0x%08X\n\n", (iter + 1), test_val, ret_val);
+         FPRINTF_FAILURE("iteration=%.4d, expected=0x%02X actual=0x%02X for '%s'\n\n",
+                         (iter + 1), test_byte, ret_val, TypeToAscii(typename(test_byte)));
          return TEST_FAIL;
       }
+      Print("\n");
+   }
+
+   FPRINTF_SUCCESS("'%s'!\n\n", TypeToAscii(typename(test_byte)));
+
+   return TEST_PASS;
+}
+
+static int _TestBinaryDumpUint16(int iterations)
+{
+   UINT16 test_uint16;
+   UINT16 ret_val;
+
+   FPRINTF_DEBUG("Running %d iteration(s) on a(n) '%s'...\n",
+                 iterations, TypeToAscii(typename(test_uint16)));
+
+   for (int iter = 0; iter < iterations; iter++)
+   {
+      test_uint16 = MAX_RAND_UINT16;
+
+      FPRINTF_DEBUG("iteration=%.4d, input=0x%04X\n",
+                    (iter + 1), test_uint16);
+
+      ret_val = BinaryDumpUint16(test_uint16, "_");
+
+      if (ret_val != test_uint16)
+      {
+         FPRINTF_FAILURE("iteration=%.4d, expected=0x%04X actual=0x%04X for '%s'\n\n",
+                         (iter + 1), test_uint16, ret_val, TypeToAscii(typename(test_uint16)));
+         return TEST_FAIL;
+      }
+      Print("\n");
+   }
+
+   FPRINTF_SUCCESS("'%s'!\n\n", TypeToAscii(typename(test_uint16)));
+
+   return TEST_PASS;
+}
+
+static int _TestBinaryDumpUint32(int iterations)
+{
+   UINT32 test_uint32;
+   UINT32 ret_val;
+
+   FPRINTF_DEBUG("Running %d iteration(s) on a(n) '%s'...\n",
+                  iterations, TypeToAscii(typename(test_uint32)));
+
+   for (int iter = 0; iter < iterations; iter++)
+   {
+      test_uint32 = MAX_RAND_UINT32;
+
+      FPRINTF_DEBUG("iteration=%.4d, input=0x%04X\n",
+                    (iter + 1), test_uint32);
+
+      ret_val = BinaryDumpUint32(test_uint32, "_");
+
+      if (ret_val != test_uint32)
+      {
+         FPRINTF_FAILURE("iteration=%.4d, expected=0x%04X actual=0x%04X for '%s'\n\n",
+                         (iter + 1), test_uint32, ret_val, TypeToAscii(typename(test_uint32)));
+         return TEST_FAIL;
+      }
+      Print("\n");
+   }
+
+   FPRINTF_SUCCESS("'%s'!\n\n", TypeToAscii(typename(test_uint32)));
+
+   return TEST_PASS;
+}
+
+static int _TestBinaryDumpUint64(int iterations)
+{
+   UINT64 test_uint64;
+   UINT64 ret_val;
+
+   FPRINTF_DEBUG("Running %d iteration(s) on a(n) '%s'...\n",
+                  iterations, TypeToAscii(typename(test_uint64)));
+
+   for (int iter = 0; iter < iterations; iter++)
+   {
+      test_uint64 = MAX_RAND_UINT64;
+
+      FPRINTF_DEBUG("iteration=%.4d, input=0x%08lX\n",
+                    (iter + 1), test_uint64);
+
+      ret_val = BinaryDumpUint64(test_uint64, "_");
+
+      if (ret_val != test_uint64)
+      {
+         FPRINTF_FAILURE("iteration=%.4d, expected=0x%08lX actual=0x%08lX for '%s'\n\n",
+                         (iter + 1), test_uint64, ret_val, TypeToAscii(typename(test_uint64)));
+         return TEST_FAIL;
+      }
+      Print("\n");
+   }
+
+   FPRINTF_SUCCESS("'%s'!\n\n", TypeToAscii(typename(test_uint64)));
+
+   return TEST_PASS;
+}
+
+static int _TestBinaryDump(int iterations)
+{
+   if (_TestBinaryDumpByte(iterations) != 0)
+   {
+      return TEST_FAIL;
+   }
+
+   if (_TestBinaryDumpUint16(iterations) != 0)
+   {
+      return TEST_FAIL;
+   }
+
+   if (_TestBinaryDumpUint32(iterations) != 0)
+   {
+      return TEST_FAIL;
+   }
+
+   if (_TestBinaryDumpUint64(iterations) != 0)
+   {
+      return TEST_FAIL;
    }
 
    return TEST_PASS;
@@ -323,13 +447,13 @@ static int _RunTests(int iterations)
       return TEST_FAIL;
    }
 
-   if (_TestBinaryDumpUint32(iterations) == 0)
+   if (_TestBinaryDump(iterations) == 0)
    {
-      PRINT_SUCCESS("_TestBinaryDumpUint32()\n\n");
+      PRINT_SUCCESS("_TestBinaryDump##TYPE()\n\n");
    }
    else
    {
-      PRINT_FAILURE("_TestBinaryDumpUint32()\n\n");
+      PRINT_FAILURE("_TestBinaryDump##TYPE()\n\n");
       return TEST_FAIL;
    }
 
