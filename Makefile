@@ -14,7 +14,7 @@ $(TARGET): $(OBJ)
 	$(CC) $(CFLAGS) $(DEPS) -o $(TARGET) $(OBJ)
 
 main.o: main.c
-	$(CC) $(CFLAGS) -c main.c
+	$(CC) $(CFLAGS) -Wno-unused-but-set-variable -c main.c
 
 dump.o: dump.c dump.h
 	$(CC) $(CFLAGS) -c dump.c
