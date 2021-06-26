@@ -57,5 +57,6 @@
  * Protoypes
  */
 void Print(const char *format, ...);
+void Printf(const char *format, ...);
 
 #endif /* PRINT_H */
