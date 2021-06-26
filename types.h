@@ -1,3 +1,6 @@
+#ifndef TYPES_H
+#define TYPES_H
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -86,3 +89,5 @@ enum t_typename
  */
 UINT MSBit(UINT total_bits);
 const char *TypeToAscii(enum t_typename type);
+
+#endif /* TYPES_H */

@@ -1,3 +1,6 @@
+#ifndef RAND_H
+#define RAND_H
+
 #include "lib.h"
 
 #define MAX_RAND_BYTE   RandByte(MAX_BYTE)
@@ -15,3 +18,5 @@ UINT RandUint(UINT max_value);
 UINT16 RandUint16(UINT16 max_value);
 UINT32 RandUint32(UINT32 max_value);
 UINT64 RandUint64(UINT64 max_value);
+
+#endif /* RAND_H */

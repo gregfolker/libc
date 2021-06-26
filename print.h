@@ -1,3 +1,6 @@
+#ifndef PRINT_H
+#define PRINT_H
+
 #include <stdarg.h>
 
 #include "ansi_color_codes.h"
@@ -54,3 +57,5 @@
  * Protoypes
  */
 void Print(const char *format, ...);
+
+#endif /* PRINT_H */
