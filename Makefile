@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS = -g -Wall
 TARGET = libc
-DEPS = ansi_color_codes.h
+DEPS = ansi_color_codes.h util.h
 
 _OBJ = main.o dump.o lib.o mem.o print.o rand.o types.o
 OBJ = $(patsubst %,%,$(_OBJ))

@@ -10,13 +10,14 @@
 #include "dump.h"
 #include "rand.h"
 #include "lib.h"
+#include "util.h"
 
 #define TEST_PASS                 0
 #define TEST_FAIL                 1
 
 #define DEFAULT_TEST_ITERATIONS  10
 
-#define NUM_UNIT_TESTS 3
+#define NUM_UNIT_TESTS 4
 
 static int (*UnitTest[NUM_UNIT_TESTS])(int iterations);
 
@@ -25,6 +26,7 @@ enum t_testname
    TESTNAME_MAX_VALUE,
    TESTNAME_TYPENAME,
    TESTNAME_BINARY_DUMP,
+   TESTNAME_MAX_MIN,
 };
 
 static const char* TestNameToAscii(enum t_testname name)
@@ -37,6 +39,8 @@ static const char* TestNameToAscii(enum t_testname name)
          return "_TestTypename(int)";
       case TESTNAME_BINARY_DUMP:
          return "_TestBinaryDump(int)";
+      case TESTNAME_MAX_MIN:
+         return "_TestMaxMin(int)";
       default:
          return "unknown";
    }
@@ -453,11 +457,65 @@ static int _TestBinaryDump(int iterations)
    return TEST_PASS;
 }
 
+static int _TestMaxMin(int iterations)
+{
+   BYTE x;
+   BYTE y;
+   BYTE result;
+
+   for (int iter = 0; iter < iterations; iter++)
+   {
+      x = MAX_RAND_BYTE;
+      y = MAX_RAND_BYTE;
+
+      FPRINTF_DEBUG("iteration=%.4d, x=%d, y=%d\n", iter, x, y);
+
+      result = MAX(x, y);
+
+      if ((x > y) && (result != x))
+      {
+         FPRINTF_FAILURE("iteration=%.4d, expected=(%d > %d) actual=(%d > %d)\n\n", iter, x, y, result, y);
+         return TEST_FAIL;
+      }
+
+      if ((y > x) && (result != y))
+      {
+         FPRINTF_FAILURE("iteration=%.4d, expected=(%d > %d) actual=(%d > %d)\n\n", iter, y, x, result, x);
+         return TEST_FAIL;
+      }
+   }
+
+   for (int iter = 0; iter < iterations; iter++)
+   {
+      x = MAX_RAND_BYTE;
+      y = MAX_RAND_BYTE;
+
+      FPRINTF_DEBUG("iteration=%.4d, x=%d, y=%d\n", iter, x, y);
+
+      result = MIN(x, y);
+
+      if ((x < y) && (result != x))
+      {
+         FPRINTF_FAILURE("iteration=%.4d, expected=(%d > %d) actual=(%d > %d)\n\n", iter, x, y, result, y);
+         return TEST_FAIL;
+      }
+
+      if ((y < x) && (result != y))
+      {
+         FPRINTF_FAILURE("iteration=%.4d, expected=(%d > %d) actual=(%d > %d)\n\n", iter, y, x, result, x);
+         return TEST_FAIL;
+      }
+   }
+
+   return TEST_PASS;
+}
+
 static void _InitTests()
 {
    UnitTest[TESTNAME_MAX_VALUE]   = _TestMaxValue;
    UnitTest[TESTNAME_TYPENAME]    = _TestTypename;
    UnitTest[TESTNAME_BINARY_DUMP] = _TestBinaryDump;
+   UnitTest[TESTNAME_MAX_MIN]     = _TestMaxMin;
 }
 
 static int _RunTests(int iterations)
