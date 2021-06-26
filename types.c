@@ -60,4 +60,6 @@ const char *TypeToAscii(enum t_typename type)
       case TYPENAME_UNKNOWN:
          return "unknown";
    }
+
+   return "";
 }
